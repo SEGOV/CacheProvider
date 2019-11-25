@@ -1,5 +1,6 @@
 package com.application.hibernate.dao;
 
+import com.application.cache.LFUCacheProvider;
 import com.application.cache.LRUCacheProvider;
 import com.application.hibernate.entity.TransactionEntity;
 import com.application.hibernate.factory.HibernateSessionFactory;
@@ -12,7 +13,8 @@ public class TransactionDao {
     private Transaction transaction;
 
     public TransactionEntity getTransactionById(Integer transactionId) {
-        TransactionEntity transactionEntityFromCache = LRUCacheProvider.getInstance().getFromCache(transactionId);
+//        TransactionEntity transactionEntityFromCache = LRUCacheProvider.getInstance().getFromCache(transactionId);
+        TransactionEntity transactionEntityFromCache = LFUCacheProvider.getInstance().getFromCache(transactionId);
         if(Objects.nonNull(transactionEntityFromCache)) {
             return transactionEntityFromCache;
         }
@@ -22,7 +24,8 @@ public class TransactionDao {
         TransactionEntity transactionEntity = session.get(TransactionEntity.class, transactionId);
         transaction.commit();
         session.close();
-        LRUCacheProvider.getInstance().saveInCache(transactionEntity);
+//        LRUCacheProvider.getInstance().saveInCache(transactionEntity);
+        LFUCacheProvider.getInstance().saveInCache(transactionEntity);
         return transactionEntity;
     }
 

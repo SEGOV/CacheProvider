@@ -12,37 +12,37 @@
 //
 //    @Test
 //    public void testCacheStartsEmpty() {
-//        assertEquals(cacheLruProvider.get(1), -1);
+//        assertEquals(cacheLruProvider.getFromCache(1), -1);
 //    }
 //
 //    @Test
 //    public void testSetBelowCapacity() {
-//        cacheLruProvider.set(1, 1);
-//        assertEquals(cacheLruProvider.get(1), 1);
-//        assertEquals(cacheLruProvider.get(2), -1);
-//        cacheLruProvider.set(2, 4);
-//        assertEquals(cacheLruProvider.get(1), 1);
-//        assertEquals(cacheLruProvider.get(2), 4);
+//        cacheLruProvider.saveInCache(1, 1);
+//        assertEquals(cacheLruProvider.getFromCache(1), 1);
+//        assertEquals(cacheLruProvider.getFromCache(2), -1);
+//        cacheLruProvider.saveInCache(2, 4);
+//        assertEquals(cacheLruProvider.getFromCache(1), 1);
+//        assertEquals(cacheLruProvider.getFromCache(2), 4);
 //    }
 //
 //    @Test
 //    public void testCapacityReachedOldestRemoved() {
-//        cacheLruProvider.set(1, 1);
-//        cacheLruProvider.set(2, 4);
-//        cacheLruProvider.set(3, 9);
-//        assertEquals(cacheLruProvider.get(1), -1);
-//        assertEquals(cacheLruProvider.get(2), 4);
-//        assertEquals(cacheLruProvider.get(3), 9);
+//        cacheLruProvider.saveInCache(1, 1);
+//        cacheLruProvider.saveInCache(2, 4);
+//        cacheLruProvider.saveInCache(3, 9);
+//        assertEquals(cacheLruProvider.getFromCache(1), -1);
+//        assertEquals(cacheLruProvider.getFromCache(2), 4);
+//        assertEquals(cacheLruProvider.getFromCache(3), 9);
 //    }
 //
 //    @Test
 //    public void testGetRenewsEntry() {
-//        cacheLruProvider.set(1, 1);
-//        cacheLruProvider.set(2, 4);
-//        assertEquals(cacheLruProvider.get(1), 1);
-//        cacheLruProvider.set(3, 9);
-//        assertEquals(cacheLruProvider.get(1), 1);
-//        assertEquals(cacheLruProvider.get(2), -1);
-//        assertEquals(cacheLruProvider.get(3), 9);
+//        cacheLruProvider.saveInCache(1, 1);
+//        cacheLruProvider.saveInCache(2, 4);
+//        assertEquals(cacheLruProvider.getFromCache(1), 1);
+//        cacheLruProvider.saveInCache(3, 9);
+//        assertEquals(cacheLruProvider.getFromCache(1), 1);
+//        assertEquals(cacheLruProvider.getFromCache(2), -1);
+//        assertEquals(cacheLruProvider.getFromCache(3), 9);
 //    }
 //}
