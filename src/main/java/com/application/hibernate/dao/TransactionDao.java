@@ -17,6 +17,9 @@ public class TransactionDao {
         this.cacheProvider = cacheProvider;
     }
 
+    public TransactionDao() {
+    }
+
     public BaseEntity getTransactionById(Integer transactionId) {
         BaseEntity entityFromCache = cacheProvider.getFromCache(transactionId);
         if(Objects.nonNull(entityFromCache)) {
