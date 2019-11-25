@@ -8,9 +8,13 @@ public class AppMain {
         TransactionEntity transactionEntity = new TransactionEntity();
         transactionEntity.setNumber(3);
 
-        TransactionDao.getInstance().saveTransaction(transactionEntity);
+        TransactionDao transactionDao = new TransactionDao();
+        transactionDao.saveTransaction(transactionEntity);
 
-        TransactionEntity contact = TransactionDao.getInstance().getTransactionById(1);
-        System.out.println("==========================" + contact.getNumber());
+        TransactionEntity te1 = transactionDao.getTransactionById(13);
+        TransactionEntity te2 = transactionDao.getTransactionById(14);
+        TransactionEntity te3 = transactionDao.getTransactionById(15);
+
+        TransactionEntity te4 = transactionDao.getTransactionById(15);
     }
 }
