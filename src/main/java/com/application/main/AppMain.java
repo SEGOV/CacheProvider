@@ -5,11 +5,7 @@ import com.application.hibernate.entity.TransactionEntity;
 
 public class AppMain {
     public static void main(String[] args) {
-        TransactionEntity transactionEntity = new TransactionEntity();
-        transactionEntity.setNumber(3);
-
         TransactionDao transactionDao = new TransactionDao();
-        transactionDao.saveTransaction(transactionEntity);
 
         TransactionEntity te1 = transactionDao.getTransactionById(13);
         TransactionEntity te2 = transactionDao.getTransactionById(14);

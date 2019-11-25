@@ -5,13 +5,13 @@ import com.mysql.cj.util.LRUCache;
 
 import static com.application.utils.Constants.Cache.LRU_CACHE_CAPACITY;
 
-public class CacheProvider {
-    private static CacheProvider instance;
+public class LRUCacheProvider {
+    private static LRUCacheProvider instance;
     private LRUCache<Integer, TransactionEntity> lruCache = new LRUCache<>(LRU_CACHE_CAPACITY);
 
-    public static synchronized CacheProvider getInstance() {
+    public static synchronized LRUCacheProvider getInstance() {
         if (instance == null) {
-            instance = new CacheProvider();
+            instance = new LRUCacheProvider();
         }
         return instance;
     }
