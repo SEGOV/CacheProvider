@@ -5,8 +5,6 @@ import com.application.hibernate.entity.BaseEntity;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import static com.application.utils.Constants.Cache.LFU_CACHE_CAPACITY;
-
 public class LFUCacheProvider implements CacheProvider{
     private static LFUCacheProvider instance;
     private HashMap<Integer, BaseEntity> lfuCache = new HashMap<>(); // Cache K and V
@@ -15,9 +13,9 @@ public class LFUCacheProvider implements CacheProvider{
     private int capacity;
     private int min = -1;
 
-    public static synchronized LFUCacheProvider getInstance() {
+    public static synchronized LFUCacheProvider getInstance(int capacity) {
         if (instance == null) {
-            instance = new LFUCacheProvider(LFU_CACHE_CAPACITY);
+            instance = new LFUCacheProvider(capacity);
         }
         return instance;
     }

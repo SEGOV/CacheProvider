@@ -3,17 +3,21 @@ package com.application.cache;
 import com.application.hibernate.entity.BaseEntity;
 import com.mysql.cj.util.LRUCache;
 
-import static com.application.utils.Constants.Cache.LRU_CACHE_CAPACITY;
-
 public class LRUCacheProvider implements CacheProvider{
     private static LRUCacheProvider instance;
-    private LRUCache<Integer, BaseEntity> lruCache = new LRUCache<>(LRU_CACHE_CAPACITY);
+    private LRUCache<Integer, BaseEntity> lruCache;
+    private int capacity;
 
-    public static synchronized LRUCacheProvider getInstance() {
+    public static synchronized LRUCacheProvider getInstance(int capacity) {
         if (instance == null) {
-            instance = new LRUCacheProvider();
+            instance = new LRUCacheProvider(capacity);
         }
         return instance;
+    }
+
+    public LRUCacheProvider(int capacity) {
+        this.capacity = capacity;
+        lruCache = new LRUCache<>(this.capacity);
     }
 
     public BaseEntity getFromCache(int id) {
