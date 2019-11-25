@@ -1,7 +1,7 @@
 package com.application.hibernate.dao;
 
-import com.application.cache.LFUCacheProvider;
-import com.application.cache.LRUCacheProvider;
+import com.application.cache.CacheProvider;
+import com.application.hibernate.entity.BaseEntity;
 import com.application.hibernate.entity.TransactionEntity;
 import com.application.hibernate.factory.HibernateSessionFactory;
 import org.hibernate.Session;
@@ -11,12 +11,16 @@ import java.util.Objects;
 
 public class TransactionDao {
     private Transaction transaction;
+    private CacheProvider cacheProvider;
 
-    public TransactionEntity getTransactionById(Integer transactionId) {
-//        TransactionEntity transactionEntityFromCache = LRUCacheProvider.getInstance().getFromCache(transactionId);
-        TransactionEntity transactionEntityFromCache = LFUCacheProvider.getInstance().getFromCache(transactionId);
-        if(Objects.nonNull(transactionEntityFromCache)) {
-            return transactionEntityFromCache;
+    public TransactionDao(CacheProvider cacheProvider) {
+        this.cacheProvider = cacheProvider;
+    }
+
+    public BaseEntity getTransactionById(Integer transactionId) {
+        BaseEntity entityFromCache = cacheProvider.getFromCache(transactionId);
+        if(Objects.nonNull(entityFromCache)) {
+            return entityFromCache;
         }
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
@@ -24,15 +28,14 @@ public class TransactionDao {
         TransactionEntity transactionEntity = session.get(TransactionEntity.class, transactionId);
         transaction.commit();
         session.close();
-//        LRUCacheProvider.getInstance().saveInCache(transactionEntity);
-        LFUCacheProvider.getInstance().saveInCache(transactionEntity);
+        cacheProvider.saveInCache(transactionEntity);
         return transactionEntity;
     }
 
-    public void saveTransaction(TransactionEntity transactionEntity) {
+    public void saveTransaction(TransactionEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         transaction = session.beginTransaction();
-        session.save(transactionEntity);
+        session.save(entity);
         transaction.commit();
         session.close();
     }
