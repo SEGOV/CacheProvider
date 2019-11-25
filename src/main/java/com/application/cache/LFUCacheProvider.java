@@ -1,15 +1,15 @@
 package com.application.cache;
 
-import com.application.hibernate.entity.TransactionEntity;
+import com.application.hibernate.entity.BaseEntity;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import static com.application.utils.Constants.Cache.LFU_CACHE_CAPACITY;
 
-public class LFUCacheProvider {
+public class LFUCacheProvider implements CacheProvider{
     private static LFUCacheProvider instance;
-    private HashMap<Integer, TransactionEntity> lfuCache = new HashMap<>(); // Cache K and V
+    private HashMap<Integer, BaseEntity> lfuCache = new HashMap<>(); // Cache K and V
     private HashMap<Integer, Integer> lfuCacheKeysCountersMap = new HashMap<>(); // K and counters
     private HashMap<Integer, LinkedHashSet<Integer>> counterItemsListMap = new HashMap<>(); // Counter and item list
     private int capacity;
@@ -27,7 +27,7 @@ public class LFUCacheProvider {
         counterItemsListMap.put(1, new LinkedHashSet<>());
     }
 
-    public TransactionEntity getFromCache(int key) {
+    public BaseEntity getFromCache(int key) {
         if (!lfuCache.containsKey(key)) {
             return null;
         }
@@ -44,13 +44,13 @@ public class LFUCacheProvider {
         return lfuCache.get(key);
     }
 
-    public void saveInCache(TransactionEntity transactionEntity) {
-        int key = transactionEntity.getId();
+    public void saveInCache(BaseEntity entity) {
+        int key = entity.getId();
         if (capacity <= 0) {
             return;
         }
         if (lfuCache.containsKey(key)) {
-            lfuCache.put(key, transactionEntity);
+            lfuCache.put(key, entity);
             getFromCache(key);
             return;
         }
@@ -60,7 +60,7 @@ public class LFUCacheProvider {
             lfuCache.remove(evictionNumber);
             lfuCacheKeysCountersMap.remove(evictionNumber);
         }
-        lfuCache.put(key, transactionEntity);
+        lfuCache.put(key, entity);
         lfuCacheKeysCountersMap.put(key, 1);
         min = 1;
         counterItemsListMap.get(1).add(key);

@@ -1,13 +1,13 @@
 package com.application.cache;
 
-import com.application.hibernate.entity.TransactionEntity;
+import com.application.hibernate.entity.BaseEntity;
 import com.mysql.cj.util.LRUCache;
 
 import static com.application.utils.Constants.Cache.LRU_CACHE_CAPACITY;
 
-public class LRUCacheProvider {
+public class LRUCacheProvider implements CacheProvider{
     private static LRUCacheProvider instance;
-    private LRUCache<Integer, TransactionEntity> lruCache = new LRUCache<>(LRU_CACHE_CAPACITY);
+    private LRUCache<Integer, BaseEntity> lruCache = new LRUCache<>(LRU_CACHE_CAPACITY);
 
     public static synchronized LRUCacheProvider getInstance() {
         if (instance == null) {
@@ -16,11 +16,11 @@ public class LRUCacheProvider {
         return instance;
     }
 
-    public TransactionEntity getFromCache(Integer transactionId) {
-        return lruCache.get(transactionId);
+    public BaseEntity getFromCache(int id) {
+        return lruCache.get(id);
     }
 
-    public void saveInCache(TransactionEntity transactionEntity) {
-        lruCache.put(transactionEntity.getId(), transactionEntity);
+    public void saveInCache(BaseEntity entity) {
+        lruCache.put(entity.getId(), entity);
     }
 }

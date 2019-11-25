@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "transaction", schema = "cachedb", catalog = "")
-public class TransactionEntity {
+public class TransactionEntity implements BaseEntity {
     private int id;
     private int number;
 
